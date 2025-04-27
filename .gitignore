@@ -1,0 +1,17 @@
+/bin/
+/target/
+
+**/*.rs.bk
+
+.idea/
+.vscode/
+*.swp
+*.swo
+*.bak
+.DS_Store
+*.iws
+*.iml
+*.ipr
+
+*.DS_Store
+.Thumbs.db

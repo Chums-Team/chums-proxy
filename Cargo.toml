@@ -1,0 +1,49 @@
+[package]
+name = "chums-proxy"
+description = "Rust HTTP(S) proxy for Web3 domains"
+version = "0.1.0"
+edition = "2021"
+readme = "README.md"
+keywords = [
+    "web3",
+    "proxy",
+    "http"
+]
+categories = ["web-programming", "web-programming::http-server"]
+license = "Apache-2.0"
+license-file = "LICENSE"
+repository = "https://github.com/Chums-Team/chums-proxy"
+authors = ["Maksim Zubov <zubovmv@gmail.com>", "Chums-Team"]
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[dependencies]
+arti-client = { version = "0.29.0", default-features = false, features = ["onion-service-client", "rustls", "tokio", "static-sqlite"] }
+tor-rtcompat = { version = "0.29.0", default-features = false, features = ["tokio", "rustls"] }
+tor-config = "0.29.0"
+hyper = { version = "1.6.0", features = ["full"] }
+http-body-util = "0.1.3"
+hyper-util = { version = "0.1.11", features = ["full"] }
+tokio = { version = "1.44.2", features = ["full"] }
+mini-moka = "0.10.3"
+anyhow = "1.0.98"
+log = "0.4.27"
+tracing = "0.1.41"
+tracing-subscriber = "0.3.19"
+tracing-log = "0.2.0"
+clap = { version = "4.5.37", features = ["cargo"] }
+libc = "0.2.172"
+rustls = "0.23.26"
+rustls-pemfile = "2.2.0"
+tokio-rustls = "0.26.2"
+rcgen = "0.13.2"
+async-trait = "0.1.88"
+
+web3-resolver = { git = "https://github.com/Chums-Team/web3-resolver" }
+
+[target.'cfg(target_os = "android")'.dependencies]
+android_logger = "0.15.0"
+
+[target.'cfg(target_os = "ios")'.dependencies]
+oslog = "0.2"
