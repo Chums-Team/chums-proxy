@@ -1,7 +1,6 @@
 name: Build iOS Library
 
-on:
-  workflow_dispatch:
+on: push
 
 jobs:
   build-ios:
