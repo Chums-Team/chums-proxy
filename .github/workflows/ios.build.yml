@@ -30,15 +30,19 @@ jobs:
           name: chums-proxy
           path: artifacts
 
-      - name: Generate release name
-        id: release_name
+      - name: Generate timestamp
+        id: meta
         run: |
-          echo "release_name=Release iOS $(date +'%Y-%m-%d')" >> "$GITHUB_OUTPUT"
+          timestamp="$(date +'%Y-%m-%dT%H-%M-%S')"
+          echo "tag_name=v$timestamp" >> "$GITHUB_OUTPUT"
+          echo "release_name=Release ${timestamp//T/ }" >> "$GITHUB_OUTPUT"
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
-          name: ${{ steps.release_name.outputs.release_name }}
+          name: ${{ steps.meta.outputs.release_name }}
+          tag_name: ${{ steps.meta.outputs.tag_name }}
           files: artifacts/*
+          generate_release_notes: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
