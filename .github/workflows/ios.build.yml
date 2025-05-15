@@ -3,7 +3,7 @@ name: Build iOS Library
 on: push
 
 jobs:
-  build-ios:
+  build:
     name: Build for aarch64-apple-ios
     runs-on: [self-hosted, macOS, ARM64]
     steps:
@@ -12,3 +12,9 @@ jobs:
 
       - name: Build for aarch64-apple-ios
         run: cargo build --target aarch64-apple-ios --lib --release
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ios-lib
+          path: target/aarch64-apple-ios/release/chums-proxy.*
