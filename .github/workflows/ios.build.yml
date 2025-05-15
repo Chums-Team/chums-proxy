@@ -17,4 +17,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: ios-lib
-          path: target/aarch64-apple-ios/release/chums-proxy.*
+          path: target/aarch64-apple-ios/release/*
