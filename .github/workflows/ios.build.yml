@@ -13,11 +13,18 @@ jobs:
       - name: Build for aarch64-apple-ios
         run: cargo build --target aarch64-apple-ios --lib --release
 
+      - name: ZIP artifacts
+        run: |
+          mkdir -p dist
+          cp target/aarch64-apple-ios/release/libchums_proxy.* dist/
+          cd dist
+          zip chums-proxy-ios.zip libchums_proxy.*
+
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
-          name: chums-proxy
-          path: target/aarch64-apple-ios/release/libchums_proxy.*
+          name: chums-proxy-ios
+          path: dist/chums-proxy-ios.zip
 
   release:
     name: Create GitHub Release
@@ -27,8 +34,8 @@ jobs:
       - name: Download artifact
         uses: actions/download-artifact@v4
         with:
-          name: chums-proxy
-          path: artifacts
+          name: chums-proxy-ios
+          path: dist
 
       - name: Generate timestamp
         id: meta
@@ -42,7 +49,7 @@ jobs:
         with:
           name: ${{ steps.meta.outputs.release_name }}
           tag_name: ${{ steps.meta.outputs.tag_name }}
-          files: artifacts/*
+          files: dist/chums-proxy-ios.zip
           generate_release_notes: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
