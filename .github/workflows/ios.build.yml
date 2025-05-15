@@ -6,7 +6,7 @@ on:
 jobs:
   build-ios:
     name: Build for aarch64-apple-ios
-    runs-on: [self-hosted, chums-macos-runner]
+    runs-on: [self-hosted, macOS, X64, chums-macos-runner]
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
