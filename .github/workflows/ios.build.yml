@@ -16,5 +16,29 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
-          name: ios-lib
-          path: target/aarch64-apple-ios/release/*
+          name: chums-proxy
+          path: target/aarch64-apple-ios/release/libchums_proxy.*
+
+  release:
+    name: Create GitHub Release
+    runs-on: [self-hosted, macOS, ARM64]
+    needs: build
+    steps:
+      - name: Download artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: chums-proxy
+          path: artifacts
+
+      - name: Generate release name
+        id: release_name
+        run: |
+          echo "release_name=Release iOS $(date +'%Y-%m-%d')" >> "$GITHUB_OUTPUT"
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          name: ${{ steps.release_name.outputs.release_name }}
+          files: artifacts/*
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
