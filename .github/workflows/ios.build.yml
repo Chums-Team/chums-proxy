@@ -13,12 +13,17 @@ jobs:
       - name: Build for aarch64-apple-ios
         run: cargo build --target aarch64-apple-ios --lib --release
 
+      - name: Update dylib
+        run: |
+          cd target/aarch64-apple-ios/release
+          lipo "libchums_proxy.dylib" -output "libchums_proxy" -create
+
       - name: ZIP artifacts
         run: |
           mkdir -p dist
           cp target/aarch64-apple-ios/release/libchums_proxy.* dist/
           cd dist
-          zip chums-proxy-ios.zip libchums_proxy.*
+          zip chums-proxy-ios.zip libchums_proxy*
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
