@@ -27,7 +27,7 @@ jobs:
           mkdir -p dist
           cp target/aarch64-apple-ios/release/libchums_proxy.* dist/
           cp -r flutter-chums-proxy/chums_proxy_ios/ios/Frameworks/libchums_proxy.xcframework dist/
-          cp target/aarch64-apple-ios/release/libchums_proxy libchums_proxy.xcframework/ios-arm64/libchums_proxy.framework
+          cp target/aarch64-apple-ios/release/libchums_proxy dist/libchums_proxy.xcframework/ios-arm64/libchums_proxy.framework
           zip chums-proxy-ios.zip .
 
       - name: Upload artifact
