@@ -29,7 +29,7 @@ jobs:
           cp -r flutter-chums-proxy/chums_proxy_ios/ios/Frameworks/libchums_proxy.xcframework dist/
           cp target/aarch64-apple-ios/release/libchums_proxy dist/libchums_proxy.xcframework/ios-arm64/libchums_proxy.framework
           cd dist/
-          zip -r ../chums-proxy-ios.zip .
+          zip -r chums-proxy-ios.zip .
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
