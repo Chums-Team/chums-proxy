@@ -21,7 +21,7 @@ jobs:
       - name: ZIP artifacts
         run: |
           mkdir -p dist
-          cp target/aarch64-apple-ios/release/libchums_proxy.* dist/
+          cp target/aarch64-apple-ios/release/libchums_proxy* dist/
           cd dist
           zip chums-proxy-ios.zip libchums_proxy*
 
