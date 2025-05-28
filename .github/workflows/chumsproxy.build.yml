@@ -52,16 +52,15 @@ jobs:
 
       - name: ZIP artifacts
         run: |
-          mkdir -p dist
-          cp target/x86_64-pc-windows-msvc/release/libchums_proxy.* dist/
-          cd dist/
-          zip -r chums-proxy-windows.zip .
+          mkdir dist
+          Copy-Item "target\x86_64-pc-windows-msvc\release\chums_proxy*" -Destination dist -Recurse -Force
+          Compress-Archive -Path dist\* -DestinationPath chums-proxy-windows.zip
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
           name: chums-proxy-windows
-          path: dist/chums-proxy-windows.zip
+          path: chums-proxy-windows.zip
 
   release:
     name: Create GitHub Release
