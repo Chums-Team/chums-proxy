@@ -44,9 +44,6 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Install NASM
-        run: choco install nasm
-
       - name: Set up Rust + target
         run: rustup target add x86_64-pc-windows-msvc
 
