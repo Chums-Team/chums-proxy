@@ -48,7 +48,7 @@ jobs:
         run: rustup target add x86_64-pc-windows-msvc
 
       - name: Build for x86_64-pc-windows-msvc
-        run: cargo build --target x86_64-pc-windows-msvc --lib --release
+        run: cargo build --target x86_64-pc-windows-msvc --release
 
       - name: ZIP artifacts
         run: |
@@ -69,7 +69,7 @@ jobs:
       - build-ios
       - build-windows
     steps:
-      - name: Download ios artifact
+      - name: Download iOS artifact
         uses: actions/download-artifact@v4
         with:
           name: chums-proxy-ios
