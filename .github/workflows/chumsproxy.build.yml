@@ -53,7 +53,7 @@ jobs:
       - name: ZIP artifacts
         run: |
           mkdir dist
-          Copy-Item "target\x86_64-pc-windows-msvc\release\chums_proxy*" -Destination dist -Recurse -Force
+          Copy-Item "target\x86_64-pc-windows-msvc\release\*.exe" -Destination dist
           Compress-Archive -Path dist\* -DestinationPath chums-proxy-windows.zip
 
       - name: Upload artifact
