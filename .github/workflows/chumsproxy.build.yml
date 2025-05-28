@@ -89,7 +89,7 @@ jobs:
           tag_name: ${{ steps.meta.outputs.tag_name }}
           files: |
             dist/chums-proxy-ios.zip
-            dist/chums-proxy-windows.zip
+            chums-proxy-windows.zip
           generate_release_notes: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
