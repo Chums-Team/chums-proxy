@@ -1,0 +1,96 @@
+name: Build chums-proxy
+
+on: push
+
+jobs:
+  build-ios:
+    name: Build for aarch64-apple-ios
+    runs-on: [self-hosted, macOS, ARM64]
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Build for aarch64-apple-ios
+        run: cargo build --target aarch64-apple-ios --lib --release
+
+      - name: Update dylib
+        run: |
+          cd target/aarch64-apple-ios/release
+          lipo "libchums_proxy.dylib" -output "libchums_proxy" -create
+
+      - name: Clone flutter-chums-proxy repository
+        run: |
+          git clone https://github.com/Chums-Team/flutter-chums-proxy.git flutter-chums-proxy
+
+      - name: ZIP artifacts
+        run: |
+          mkdir -p dist
+          cp target/aarch64-apple-ios/release/libchums_proxy.* dist/
+          cp -r flutter-chums-proxy/chums_proxy_ios/ios/Frameworks/libchums_proxy.xcframework dist/
+          cp target/aarch64-apple-ios/release/libchums_proxy dist/libchums_proxy.xcframework/ios-arm64/libchums_proxy.framework
+          cd dist/
+          zip -r chums-proxy-ios.zip .
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: chums-proxy-ios
+          path: dist/chums-proxy-ios.zip
+
+  build-windows:
+    name: Build for x86_64-pc-windows-gnu
+    runs-on: windows-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Rust + target
+        run: rustup target add x86_64-pc-windows-gnu
+
+      - name: Build for x86_64-pc-windows-gnu
+        run: cargo build --target x86_64-pc-windows-gnu --lib --release
+
+      - name: ZIP artifacts
+        run: |
+          mkdir -p dist
+          cp target/x86_64-pc-windows-gnu/release/libchums_proxy.* dist/
+          cd dist/
+          zip -r chums-proxy-windows.zip .
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: chums-proxy-windows
+          path: dist/chums-proxy-windows.zip
+
+  release:
+    name: Create GitHub Release
+    runs-on: [self-hosted, macOS, ARM64]
+    needs:
+      - build-ios
+      - build-windows
+    steps:
+      - name: Download artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: chums-proxy-ios
+          path: dist
+
+      - name: Generate timestamp
+        id: meta
+        run: |
+          timestamp="$(date +'%Y-%m-%dT%H-%M-%S')"
+          echo "tag_name=v$timestamp" >> "$GITHUB_OUTPUT"
+          echo "release_name=Release ${timestamp//T/ }" >> "$GITHUB_OUTPUT"
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          name: ${{ steps.meta.outputs.release_name }}
+          tag_name: ${{ steps.meta.outputs.tag_name }}
+          files: |
+            dist/chums-proxy-ios.zip
+            dist/chums-proxy-windows.zip
+          generate_release_notes: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
