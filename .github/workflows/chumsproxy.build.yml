@@ -69,11 +69,17 @@ jobs:
       - build-ios
       - build-windows
     steps:
-      - name: Download artifact
+      - name: Download ios artifact
         uses: actions/download-artifact@v4
         with:
           name: chums-proxy-ios
-          path: dist
+          path: ios
+
+      - name: Download Windows Artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: chums-proxy-windows
+          path: windows
 
       - name: Generate timestamp
         id: meta
@@ -88,8 +94,8 @@ jobs:
           name: ${{ steps.meta.outputs.release_name }}
           tag_name: ${{ steps.meta.outputs.tag_name }}
           files: |
-            dist/chums-proxy-ios.zip
-            chums-proxy-windows.zip
+            ios/chums-proxy-ios.zip
+            windows/chums-proxy-windows.zip
           generate_release_notes: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
