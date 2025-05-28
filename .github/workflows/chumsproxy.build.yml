@@ -69,7 +69,9 @@ jobs:
   release:
     name: Create GitHub Release
     runs-on: [self-hosted, macOS, ARM64]
-    needs: build
+    needs:
+      - build-ios
+      - build-windows
     steps:
       - name: Download artifact
         uses: actions/download-artifact@v4
