@@ -1,6 +1,9 @@
 name: Build chums-proxy
 
-on: push
+on:
+  push:
+    branches:
+      - main
 
 jobs:
   build-ios:
