@@ -38,7 +38,7 @@ jobs:
           path: dist/chums-proxy-ios.zip
 
   build-windows:
-    name: Build for x86_64-pc-windows-gnu
+    name: Build for x86_64-pc-windows-msvc
     runs-on: windows-latest
     steps:
       - name: Checkout repository
@@ -48,15 +48,15 @@ jobs:
         run: choco install nasm
 
       - name: Set up Rust + target
-        run: rustup target add x86_64-pc-windows-gnu
+        run: rustup target add x86_64-pc-windows-msvc
 
-      - name: Build for x86_64-pc-windows-gnu
-        run: cargo build --target x86_64-pc-windows-gnu --lib --release
+      - name: Build for x86_64-pc-windows-msvc
+        run: cargo build --target x86_64-pc-windows-msvc --lib --release
 
       - name: ZIP artifacts
         run: |
           mkdir -p dist
-          cp target/x86_64-pc-windows-gnu/release/libchums_proxy.* dist/
+          cp target/x86_64-pc-windows-msvc/release/libchums_proxy.* dist/
           cd dist/
           zip -r chums-proxy-windows.zip .
 
