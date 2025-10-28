@@ -1,5 +1,7 @@
 # Chums proxy
 
+[![License](https://img.shields.io/badge/License-Apache_2.0-yellowgreen.svg)](https://opensource.org/licenses/Apache-2.0)
+
 A Rust **HTTP / HTTPS proxy** capable of handling Web3-domain and landing user to target website.
 Target website could be either Web2-domain, IPFS, Tor Onion or onchain site on everscale network 
 (with [special contracts](https://github.com/Chums-Team/everscale-onchain-site-contract)).
