@@ -15,7 +15,7 @@ use tokio::sync::OnceCell;
 use tor_config;
 use tor_rtcompat::PreferredRuntime;
 use web3_resolver::models::{AddressTag, ResolvedDomainData};
-use web3_resolver::Web3DomainResolver;
+use web3_resolver::{Resolver, Web3DomainResolver};
 
 const EVERSCALE_RPC_ENDPOINT: &str = "https://jrpc.everwallet.net/rpc";
 const CHUMS_UD_PROXY_URL: &str = "https://ud.chums.chat/";
